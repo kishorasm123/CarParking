@@ -14,8 +14,8 @@ namespace Common
         private EmployeeRegistration _employeeRegistration;
         private ParkingSlot _parkingSlot;
 
-        public DateTime ParkingEntryTime = DateTime.Now;
-        public DateTime ParkingExitTime = DateTime.Now;
+        public DateTime? ParkingEntryTime = null;
+        public DateTime? ParkingExitTime = null;
 
         public int ParkingId
         {

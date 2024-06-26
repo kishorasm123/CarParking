@@ -16,6 +16,7 @@ namespace UseCase
             bool isParkingDone = false;
             RealTimeParkingData realTimeParkingData = new RealTimeParkingData();
 
+
             var currentAvailableSlots = testDataRepository.ParkingSlots.Where(x => !x.IsOccupied);
 
             if (currentAvailableSlots == null || !currentAvailableSlots.Any())
@@ -24,30 +25,54 @@ namespace UseCase
                 return realTimeParkingData;
             }
 
+            realTimeParkingData.ParkingEntryTime = DateTime.Now;
+
             var employeeRegistration = testDataRepository.EmployeeRegistrations.First(x => x.CarNo == carNo);
 
-            // 1. Based on preference.
             var unOccupiedEmployeePreferredSlots = currentAvailableSlots.Where(x => employeeRegistration.ParkingPreferences.Contains(x.PreferenceMap));
-
-            if (unOccupiedEmployeePreferredSlots.Any())
-            {
-                realTimeParkingData.ParkingSlot = unOccupiedEmployeePreferredSlots.First();
-                realTimeParkingData.EmployeeRegistration = employeeRegistration;
-                realTimeParkingData.ParkingSlot.IsOccupied = true;
-            }
+            var parkingHistories = testDataRepository.ParkingHistory.Where(x => x.CarNo == employeeRegistration.CarNo && x.InTime.HasValue)
+                .OrderByDescending(x => x.InTime);
 
             // 2. Based on parked history.
-            if (!isParkingDone)
+            if (parkingHistories.Any())
             {
-                var parkingHistories = testDataRepository.ParkingHistory.Where(x => x.CarNo == employeeRegistration.CarNo && x.InTime.HasValue)
-                                                 .OrderByDescending(x => x.InTime);
-                // 1. Based on yesterday parked history.
-                if (parkingHistories.Any() && currentAvailableSlots.Any(x=> parkingHistories.First().ParkingSlotNo == x.SlotNo))
-                {
+                var lastParkedSlotAvailable = unOccupiedEmployeePreferredSlots.Where(x => parkingHistories.First().ParkingSlotNo == x.SlotNo);
 
+                // 1. Based on last parked slot history + preference.
+                if (lastParkedSlotAvailable.Any())
+                {
+                    realTimeParkingData.ParkingSlot = lastParkedSlotAvailable.First();
+                    realTimeParkingData.EmployeeRegistration = employeeRegistration;
+                    realTimeParkingData.ParkingSlot.IsOccupied = true;
+                }
+
+                // 2. Based on most parked slot history.
+                else
+                {
+                    var mostFrequentSlot = parkingHistories
+                        .GroupBy(ph => ph.ParkingSlotNo)
+                        .OrderByDescending(g => g.Count())
+                        .FirstOrDefault()?.Key;
+
+                    var mostFrequentlyParkedSlotAvailablity =
+                        unOccupiedEmployeePreferredSlots.Where(x => x.SlotNo == mostFrequentSlot);
+
+                    if (mostFrequentlyParkedSlotAvailablity.Any())
+                    {
+                        realTimeParkingData.ParkingSlot = mostFrequentlyParkedSlotAvailablity.First();
+                        realTimeParkingData.EmployeeRegistration = employeeRegistration;
+                        realTimeParkingData.ParkingSlot.IsOccupied = true;
+                    }
+                }
+
+                // Allocating to any avaialable slot if not parked.
+                if (realTimeParkingData.ParkingSlot == null)
+                {
+                    realTimeParkingData.ParkingSlot = unOccupiedEmployeePreferredSlots.First();
+                    realTimeParkingData.EmployeeRegistration = employeeRegistration;
+                    realTimeParkingData.ParkingSlot.IsOccupied = true;
                 }
             }
-
 
             testDataRepository.RealTimeParkingData.Add(realTimeParkingData);
             testDataRepository.ParkingHistory.Add(new ParkingHistory()
@@ -58,6 +83,23 @@ namespace UseCase
             });
 
             return realTimeParkingData;
+        }
+
+        public bool ReleaseParkingSlot(string carNo, TestRepository testDataRepository)
+        {
+            var parkedData = testDataRepository.RealTimeParkingData.First(x => x.CarNo == carNo);
+            var parkingSlot = testDataRepository.ParkingSlots.First(x => x.SlotNo == parkedData.ParkingSlotNo);
+
+            parkingSlot.IsOccupied = false;
+
+            testDataRepository.ParkingHistory.Add(new ParkingHistory()
+            {
+                CarNo = parkedData.CarNo,
+                InTime = DateTime.Now,
+                ParkingSlotNo = parkedData.ParkingSlotNo
+            });
+
+            return true;
         }
     }
 }
