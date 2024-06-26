@@ -10,8 +10,8 @@ namespace Common.TestData
     {
         private static ICollection<EmployeeRegistration> _employeeRegistrations;
         private static List<ParkingSlot> _parkingSlots;
-        private static List<RealTimeParkingData> _realTimeParkingData;
-        private static List<ParkingHistory> _parkingHistories;
+        private static List<RealTimeParkingData> _realTimeParkingData = new List<RealTimeParkingData>();
+        private static List<ParkingHistory> _parkingHistories = new List<ParkingHistory>();
 
         public ICollection<EmployeeRegistration> EmployeeRegistrations
         {
@@ -23,7 +23,7 @@ namespace Common.TestData
             }
         }
 
-        public List<ParkingSlot> ParkingSlot
+        public List<ParkingSlot> ParkingSlots
         {
             get { return _parkingSlots; }
             set

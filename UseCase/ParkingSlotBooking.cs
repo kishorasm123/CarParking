@@ -13,9 +13,12 @@ namespace UseCase
     {
         public RealTimeParkingData BookParkingSlot(string carNo, TestRepository testDataRepository)
         {
+            bool isParkingDone = false;
             RealTimeParkingData realTimeParkingData = new RealTimeParkingData();
 
-            if (testDataRepository.ParkingSlot.Any(x => !x.IsOccupied))
+            var currentAvailableSlots = testDataRepository.ParkingSlots.Where(x => !x.IsOccupied);
+
+            if (currentAvailableSlots == null || !currentAvailableSlots.Any())
             {
                 realTimeParkingData.Message = "Parking is full";
                 return realTimeParkingData;
@@ -24,24 +27,27 @@ namespace UseCase
             var employeeRegistration = testDataRepository.EmployeeRegistrations.First(x => x.CarNo == carNo);
 
             // 1. Based on preference.
-            var employeePreferredSlots = testDataRepository.ParkingSlot.Where(x =>
-               !x.IsOccupied && employeeRegistration.ParkingPreferences.Contains(x.PreferenceMap));
-            if (employeePreferredSlots.Any())
+            var unOccupiedEmployeePreferredSlots = currentAvailableSlots.Where(x => employeeRegistration.ParkingPreferences.Contains(x.PreferenceMap));
+
+            if (unOccupiedEmployeePreferredSlots.Any())
             {
-                realTimeParkingData.ParkingSlot = employeePreferredSlots.First();
+                realTimeParkingData.ParkingSlot = unOccupiedEmployeePreferredSlots.First();
                 realTimeParkingData.EmployeeRegistration = employeeRegistration;
                 realTimeParkingData.ParkingSlot.IsOccupied = true;
             }
 
             // 2. Based on parked history.
-            var parkingHistories = testDataRepository.ParkingHistory.Where(x => x.CarNo == employeeRegistration.CarNo && x.InTime.HasValue)
-                                                .OrderByDescending(x => x.InTime);
-
-
-            if (parkingHistories.Any())
+            if (!isParkingDone)
             {
-                
+                var parkingHistories = testDataRepository.ParkingHistory.Where(x => x.CarNo == employeeRegistration.CarNo && x.InTime.HasValue)
+                                                 .OrderByDescending(x => x.InTime);
+                // 1. Based on yesterday parked history.
+                if (parkingHistories.Any() && currentAvailableSlots.Any(x=> parkingHistories.First().ParkingSlotNo == x.SlotNo))
+                {
+
+                }
             }
+
 
             testDataRepository.RealTimeParkingData.Add(realTimeParkingData);
             testDataRepository.ParkingHistory.Add(new ParkingHistory()
