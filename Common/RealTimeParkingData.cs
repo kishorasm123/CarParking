@@ -44,6 +44,17 @@ namespace Common
             }
         }
 
+        private string _message;
+        public string Message
+        {
+            get { return _message; }
+            set
+            {
+                _message = value;
+                OnPropertyChanged();
+            }
+        }
+
         public EmployeeRegistration EmployeeRegistration
         {
             get { return _employeeRegistration; }
@@ -64,10 +75,6 @@ namespace Common
             }
         }
 
-        public RealTimeParkingData(string parkingSlotNo, string carNo)
-        {
-            ParkingSlotNo = parkingSlotNo;
-            CarNo = carNo;
-        }
+      
     }
 }

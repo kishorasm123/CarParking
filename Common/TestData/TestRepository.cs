@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace Common.TestData
 {
-    public class TestData
+    public class TestRepository
     {
         private static ICollection<EmployeeRegistration> _employeeRegistrations;
         private static List<ParkingSlot> _parkingSlots;
+        private static List<RealTimeParkingData> _realTimeParkingData;
 
         public ICollection<EmployeeRegistration> EmployeeRegistrations
         {
@@ -23,8 +24,14 @@ namespace Common.TestData
             set { _parkingSlots = value; }
         }
 
+        public List<RealTimeParkingData> RealTimeParkingData
+        {
+            get { return _realTimeParkingData; }
+            set { _realTimeParkingData = value; }
+        }
 
-        static TestData()
+
+        static TestRepository()
         {
             _employeeRegistrations = new List<EmployeeRegistration>()
             {

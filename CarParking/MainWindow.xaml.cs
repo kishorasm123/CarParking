@@ -26,7 +26,7 @@ namespace CarParking
         {
             InitializeComponent();
 
-            TestData tt = new TestData();
+            TestRepository tt = new TestRepository();
             var parkingSlots = tt.ParkingSlot;
             var registerations = tt.EmployeeRegistrations;
         }

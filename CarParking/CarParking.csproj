@@ -100,6 +100,10 @@
       <Project>{7780bad0-9246-4bcf-a389-ab47496af344}</Project>
       <Name>Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\UseCase\UseCase.csproj">
+      <Project>{58b8a517-e4d0-4d92-b515-8c832a744207}</Project>
+      <Name>UseCase</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
