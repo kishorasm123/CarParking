@@ -34,8 +34,14 @@ namespace UseCase
             }
 
             // 2. Based on parked history.
-            testDataRepository.ParkingHistory.Where(x => x.CarNo == employeeRegistration.CarNo);
+            var parkingHistories = testDataRepository.ParkingHistory.Where(x => x.CarNo == employeeRegistration.CarNo && x.InTime.HasValue)
+                                                .OrderByDescending(x => x.InTime);
 
+
+            if (parkingHistories.Any())
+            {
+                
+            }
 
             testDataRepository.RealTimeParkingData.Add(realTimeParkingData);
             testDataRepository.ParkingHistory.Add(new ParkingHistory()
