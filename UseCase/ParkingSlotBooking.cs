@@ -57,7 +57,7 @@ namespace UseCase
                 var lastParkedSlotIsUserPrefferedAndAvailable = unOccupiedEmployeePreferredSlots.Where(x => parkingHistories.First().ParkingSlotNo == x.SlotNo);
 
                 // 1. Based on last parked slot history + preference.
-                if (lastParkedSlotIsUserPrefferedAndAvailable.Any())
+                if (lastParkedSlotIsUserPrefferedAndAvailable.Any() && lastParkedSlotIsUserPrefferedAndAvailable.First() == unOccupiedEmployeePreferredSlots.First())
                 {
                     realTimeParkingData.ParkingSlot = lastParkedSlotIsUserPrefferedAndAvailable.First();
                 }
@@ -104,7 +104,22 @@ namespace UseCase
             // Based on employee preffered slot.
             else if (unOccupiedEmployeePreferredSlots.Any())
             {
-                realTimeParkingData.ParkingSlot = unOccupiedEmployeePreferredSlots.First();
+                if (unOccupiedEmployeePreferredSlots.First().PreferenceMap == EnumParkingPreferences.NearEntry)
+                {
+                    var min = unOccupiedEmployeePreferredSlots.Where(x => x.PreferenceMap == EnumParkingPreferences.NearEntry).Min(y => y.SlotNo);
+                    realTimeParkingData.ParkingSlot = unOccupiedEmployeePreferredSlots.First(x => x.SlotNo == min);
+                }
+
+                else if (unOccupiedEmployeePreferredSlots.First().PreferenceMap == EnumParkingPreferences.NearExit)
+                {
+                    var max = unOccupiedEmployeePreferredSlots.Where(x => x.PreferenceMap == EnumParkingPreferences.NearExit).Max(y => y.SlotNo);
+                    realTimeParkingData.ParkingSlot = unOccupiedEmployeePreferredSlots.First(x => x.SlotNo == max);
+                }
+
+                else
+                {
+                    realTimeParkingData.ParkingSlot = unOccupiedEmployeePreferredSlots.First();
+                }
             }
 
             // Allocating to any available slot if not parked.
@@ -139,6 +154,8 @@ namespace UseCase
             var parkingSlot = testDataRepository.ParkingSlots.First(x => x.SlotNo == parkedData.ParkingSlotNo);
 
             parkingSlot.IsOccupied = false;
+            parkingSlot.CarNo = String.Empty;
+
             testDataRepository.RealTimeParkingData.Remove(parkedData);
             testDataRepository.ParkingHistory.Add(new ParkingHistory()
             {

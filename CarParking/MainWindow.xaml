@@ -63,7 +63,7 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="1.5*"/>
                 </Grid.RowDefinitions>
                 <GroupBox Grid.Row="0" Margin="10">
 
@@ -151,7 +151,7 @@
 
             <GroupBox Grid.Column="2">
                 <GroupBox.Header>
-                    <TextBlock Text="Parking Slots" Foreground="Blue" FontSize="18" FontWeight="DemiBold"/>
+                    <TextBlock Text="Real-Time Parking Slots" Foreground="Blue" FontSize="18" FontWeight="DemiBold"/>
                 </GroupBox.Header>
 
                 <Grid  x:Name="SlotAllocation">

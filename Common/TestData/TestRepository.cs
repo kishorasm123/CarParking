@@ -88,7 +88,7 @@ namespace Common.TestData
                     EmployeeId = "E4",
                     CarNo = "C4",
                     EmployeeName = "Praveen",
-                    ParkingPreferences = new List<EnumParkingPreferences>() { EnumParkingPreferences.NearEntry}
+                    ParkingPreferences = new List<EnumParkingPreferences>() { EnumParkingPreferences.NearExit}
                 },
 
                 new EmployeeRegistration()
@@ -96,6 +96,14 @@ namespace Common.TestData
                     EmployeeId = "E5",
                     CarNo = "C5",
                     EmployeeName = "Jay",
+                    ParkingPreferences = new List<EnumParkingPreferences>() { EnumParkingPreferences.General}
+                },
+
+                new EmployeeRegistration()
+                {
+                    EmployeeId = "E6",
+                    CarNo = "C6",
+                    EmployeeName = "Radha",
                     ParkingPreferences = new List<EnumParkingPreferences>() { EnumParkingPreferences.General}
                 }
 
