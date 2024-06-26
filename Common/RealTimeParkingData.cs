@@ -30,7 +30,7 @@ namespace Common
         public string ParkingSlotNo
         {
             get { return _parkingSlotNo; }
-            set
+            private set
             {
                 _parkingSlotNo = value;
                 OnPropertyChanged();
@@ -40,7 +40,7 @@ namespace Common
         public string CarNo
         {
             get { return _carNo; }
-            set
+            private set
             {
                 _carNo = value;
                 OnPropertyChanged();
@@ -64,6 +64,15 @@ namespace Common
             set
             {
                 _employeeRegistration = value;
+
+                if (_employeeRegistration == null)
+                {
+                    CarNo = String.Empty;
+                }
+                else
+                {
+                    CarNo = _employeeRegistration.CarNo;
+                }
                 OnPropertyChanged();
             }
         }
@@ -74,6 +83,15 @@ namespace Common
             set
             {
                 _parkingSlot = value;
+
+                if (_parkingSlot == null)
+                {
+                    ParkingSlotNo = String.Empty;
+                }
+                else
+                {
+                    ParkingSlotNo = _parkingSlot.SlotNo;
+                }
                 OnPropertyChanged();
             }
         }

@@ -64,5 +64,14 @@ namespace Common
             }
         }
 
+        // Read-only property to convert ParkingPreferences to string
+        public string ParkingPreferencesString
+        {
+            get
+            {
+                return string.Join(", ", ParkingPreferences.Select(p => p.ToString()));
+            }
+        }
+
     }
 }

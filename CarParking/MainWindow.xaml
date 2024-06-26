@@ -6,23 +6,71 @@
         xmlns:local="clr-namespace:CarParking"
         xmlns:viewModels="clr-namespace:CarParking.ViewModels"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Smart Parking" Height="700" Width="1500">
     <Window.DataContext>
         <viewModels:MainViewModel></viewModels:MainViewModel>
     </Window.DataContext>
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"></BooleanToVisibilityConverter>
+        <Style x:Key="TextBlockFont"></Style>
+    </Window.Resources>
     <Grid>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Grid x:Name="EntryExit">
+
+            <GroupBox Grid.Column="0">
+
+                <GroupBox.Header>
+                    <TextBlock Text="Employee Preferences" Foreground="Blue" FontSize="18" FontWeight="DemiBold"/>
+                </GroupBox.Header>
+
+                <DataGrid ItemsSource="{Binding EmployeeRegistrations}" AutoGenerateColumns="False" IsReadOnly="True" CanUserAddRows="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Employee ID" Binding="{Binding EmployeeId}" FontSize="15" />
+                        <DataGridTextColumn Header="Employee Name" Binding="{Binding EmployeeName}" FontSize="15"/>
+                        <DataGridTextColumn Header="Car No" Binding="{Binding CarNo}" FontSize="15" />
+                        <DataGridTextColumn Header="Parking Preferences" Binding="{Binding ParkingPreferencesString}" FontSize="15"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <!--<ListBox ItemsSource="{Binding EmployeeRegistrations}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="2*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Column="1" Text="{Binding CarNo}" FontSize="14"/>
+                                <TextBlock Grid.Column="0" Text="{Binding EmployeeName}" FontSize="16"/>
+                                <TextBlock Grid.Column="2" Text="{Binding EmployeeId}" FontSize="14"/>
+                                <TextBlock Grid.Column="3" Text="{Binding ParkingPreferencesString}" FontSize="14"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>-->
+            </GroupBox>
+
+            <Grid x:Name="EntryExit" Grid.Column="1">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <GroupBox Grid.Row="0" Header="Information" Margin="10">
+                <GroupBox Grid.Row="0" Margin="10">
+
+                    <GroupBox.Header>
+                        <TextBlock Text="Information" Foreground="Blue" FontSize="18" FontWeight="DemiBold"/>
+                    </GroupBox.Header>
+
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"></ColumnDefinition>
@@ -30,17 +78,26 @@
                         </Grid.ColumnDefinitions>
                         <StackPanel>
                             <StackPanel>
-                                <Label Content="Available slot count"></Label>
-                                <TextBlock Text="12"></TextBlock>
+                                <TextBlock FontSize="20" Text="Available slots"></TextBlock>
+                                <Border BorderThickness="2" BorderBrush="Black" Width="100">
+                                    <TextBlock Text="{Binding RemainingSlots}" Foreground="Green"  FontWeight="Bold" FontSize="30" HorizontalAlignment="Center"></TextBlock>
+                                </Border>
                             </StackPanel>
                         </StackPanel>
                         <StackPanel Grid.Column="1" Orientation="Vertical">
-                            <Label Content="Token Info"></Label>
-                            <TextBlock Text="S1"></TextBlock>
+                            <TextBlock FontSize="20" Text="Allocated Parking slot"></TextBlock>
+                            <Border BorderThickness="2" BorderBrush="Black" Width="100">
+                                <TextBlock Text="{Binding CurrentAllocatedSlot}" Foreground="Green"  FontWeight="Bold" FontSize="30" HorizontalAlignment="Center"></TextBlock>
+                            </Border>
                         </StackPanel>
                     </Grid>
                 </GroupBox>
-                <GroupBox Grid.Row="1" Header="Entry" Margin="10">
+                <GroupBox Grid.Row="1" Margin="10">
+
+                    <GroupBox.Header>
+                        <TextBlock Text="Entrance" Foreground="Blue" FontSize="18" FontWeight="DemiBold"/>
+                    </GroupBox.Header>
+
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"></RowDefinition>
@@ -50,13 +107,16 @@
                             <ColumnDefinition Width="*"></ColumnDefinition>
                             <ColumnDefinition Width="*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <Label Content="Car No:" Grid.Row="0" Grid.Column="0"></Label>
-                        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding EntryCarNo,UpdateSourceTrigger=PropertyChanged}"></TextBox>
-                        <Button Margin="0 10 0 0" Grid.Row="1" Grid.Column="0" Content="Entry"
-                           Command="{Binding AddAllotmentCommand}"></Button>
+                        <TextBlock Text="Car No:" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" FontSize="20"></TextBlock >
+                        <ComboBox FontSize="20"  Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Cars}" SelectedItem="{Binding EntryCarNo,UpdateSourceTrigger=PropertyChanged}"></ComboBox>
+                        <Button Margin="0 10 0 0" Grid.Row="1" Grid.Column="1"  Content="Enter" Width="100" Height="40" HorizontalAlignment="Center"
+                           Command="{Binding AddAllotmentCommand}" FontSize="20"></Button>
                     </Grid>
                 </GroupBox>
-                <GroupBox Grid.Row="2" Header="Exit" Margin="10">
+                <GroupBox Grid.Row="2"  Margin="10">
+                    <GroupBox.Header>
+                        <TextBlock Text="Exit" Foreground="Blue" FontSize="18" FontWeight="DemiBold"/>
+                    </GroupBox.Header>
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"></RowDefinition>
@@ -66,48 +126,108 @@
                             <ColumnDefinition Width="*"></ColumnDefinition>
                             <ColumnDefinition Width="*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <Label Content="Car No:" Grid.Row="0" Grid.Column="0"></Label>
-                        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding ExitCarNo,UpdateSourceTrigger=PropertyChanged}"></TextBox>
-                        <Button Margin="0 10 0 0" Grid.Row="1" Grid.Column="0" Content="Exit"
-                            Command="{Binding RemoveAllotmentCommand}"></Button>
+                        <TextBlock Text="Car No:" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" FontSize="20"></TextBlock>
+                        <ComboBox Grid.Row="0" FontSize="20" Grid.Column="1" ItemsSource="{Binding Cars}" SelectedItem="{Binding ExitCarNo,UpdateSourceTrigger=PropertyChanged}"></ComboBox>
+                        <Button Margin="0 10 0 0" Grid.Row="1" Grid.Column="1"  Content="Exit" HorizontalAlignment="Center"
+                            Command="{Binding RemoveAllotmentCommand}" FontSize="20" Width="100" Height="40"></Button>
                     </Grid>
                 </GroupBox>
+                <GroupBox Grid.Row="3">
+                    <GroupBox.Header>
+                        <TextBlock Text="Parking History" Foreground="Blue" FontSize="18" FontWeight="DemiBold"/>
+                    </GroupBox.Header>
+
+                    <DataGrid Grid.Row="1" ItemsSource="{Binding ParkingHistories}" AutoGenerateColumns="False" CanUserAddRows="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Log Time" Binding="{Binding LogTime, StringFormat=\{0:yyyy-MM-dd HH:mm\}}" FontSize="14" />
+                            <DataGridTextColumn Header="Car No" Binding="{Binding CarNo}" FontSize="14"/>
+                            <DataGridTextColumn Header="Parking Slot No" Binding="{Binding ParkingSlotNo}" FontSize="14"/>
+                            <DataGridTextColumn Header="In Time" Binding="{Binding InTime, StringFormat=\{0:yyyy-MM-dd HH:mm\}}" FontSize="14"/>
+                            <DataGridTextColumn Header="Out Time" Binding="{Binding OutTime, StringFormat=\{0:yyyy-MM-dd HH:mm\}}" FontSize="14" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </GroupBox>
             </Grid>
-            <Grid Column="1" x:Name="SlotAllocation">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <ItemsControl ItemsSource="{Binding ParkingSlotCollection}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <UniformGrid Rows="4" Columns="3" Margin="2"/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border BorderBrush="Black" BorderThickness="1" Padding="10">
-                                <Border.Style>
-                                    <Style TargetType="Border">
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsOccupied}" Value="True">
-                                                <Setter Property="Background" Value="LightGreen"/>
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding IsOccupied}" Value="False">
-                                                <Setter Property="Background" Value="LightCoral"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Border.Style>
-                                <TextBlock Text="{Binding SlotNo}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </Grid>
+
+            <GroupBox Grid.Column="2">
+                <GroupBox.Header>
+                    <TextBlock Text="Parking Slots" Foreground="Blue" FontSize="18" FontWeight="DemiBold"/>
+                </GroupBox.Header>
+
+                <Grid  x:Name="SlotAllocation">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <ItemsControl Grid.Row="0" ItemsSource="{Binding ParkingSlotCollection}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Rows="4" Columns="3" Margin="0"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border BorderBrush="Black" BorderThickness="1" Padding="2">
+                                    <Border.Style>
+                                        <Style TargetType="Border">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsOccupied}" Value="True">
+                                                    <Setter Property="Background" Value="LightCoral"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding IsOccupied}" Value="False">
+                                                    <Setter Property="Background" Value="LightGreen"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Border.Style>
+
+                                    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+
+                                        <TextBlock 
+                                        Grid.Row="0" 
+                                        FontSize="30" 
+                                        Text="{Binding SlotNo}" 
+                                        HorizontalAlignment="Center" 
+                                        VerticalAlignment="Center"/>
+
+                                        <TextBlock 
+                                        Grid.Row="1" FontSize="20"
+                                        Text="{Binding PreferenceMap}" 
+                                        HorizontalAlignment="Center" 
+                                        VerticalAlignment="Center"/>
+
+                                        <TextBlock 
+                                        Grid.Row="2" 
+                                        FontSize="25" 
+                                        Text="{Binding CarNo}" 
+                                        Foreground="Yellow" 
+                                        HorizontalAlignment="Right" 
+                                        VerticalAlignment="Bottom" 
+                                        Visibility="{Binding IsOccupied, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                    </Grid>
+
+
+                                    <!--<StackPanel Orientation="Vertical" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Aqua">
+                                    <TextBlock FontSize="30" Text="{Binding SlotNo}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{Binding PreferenceMap}"></TextBlock>
+                                    <TextBlock Background="Violet" FontSize="25" Text="{Binding CarNo}" Foreground="Yellow" HorizontalAlignment="Right" VerticalAlignment="Bottom" Visibility="{Binding IsOccupied,Converter={StaticResource BooleanToVisibilityConverter}}"></TextBlock>
+                                </StackPanel>-->
+
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Grid>
+            </GroupBox>
+
         </Grid>
 
     </Grid>

@@ -13,6 +13,7 @@ namespace Common
         public string CarNo { get; set; }
         public string ParkingSlotNo { get; set; }
 
+        public DateTime? LogTime { get; set; } = DateTime.Now;
         public DateTime? InTime { get; set; } = null;
         public DateTime? OutTime { get; set; } = null;
     }

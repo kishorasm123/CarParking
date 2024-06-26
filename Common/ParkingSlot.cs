@@ -10,6 +10,7 @@ namespace Common
     public class ParkingSlot : ModelBase
     {
         private string _slotNo;
+        private string _carNo;
         private bool _isOccupied;
         private EnumParkingPreferences _preferenceMap;
 
@@ -29,6 +30,16 @@ namespace Common
             set
             {
                 _isOccupied = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string CarNo
+        {
+            get { return _carNo; }
+            set
+            {
+                _carNo = value;
                 OnPropertyChanged();
             }
         }

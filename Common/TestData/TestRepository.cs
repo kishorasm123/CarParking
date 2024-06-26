@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -71,7 +72,7 @@ namespace Common.TestData
                     EmployeeId = "E2",
                     CarNo = "C2",
                     EmployeeName = "Kishor",
-                    ParkingPreferences = new List<EnumParkingPreferences>() { EnumParkingPreferences.NearEVChargeStation}
+                    ParkingPreferences = new List<EnumParkingPreferences>() { EnumParkingPreferences.NearEVChargeStation, EnumParkingPreferences.NearExit}
                 },
 
                 new EmployeeRegistration()
@@ -95,7 +96,7 @@ namespace Common.TestData
                     EmployeeId = "E5",
                     CarNo = "C5",
                     EmployeeName = "Jay",
-                    ParkingPreferences = new List<EnumParkingPreferences>() { EnumParkingPreferences.NearExit}
+                    ParkingPreferences = new List<EnumParkingPreferences>() { EnumParkingPreferences.General}
                 }
 
             };
@@ -105,25 +106,25 @@ namespace Common.TestData
                 new ParkingSlot()
                 {
                     IsOccupied = false,
-                    PreferenceMap = EnumParkingPreferences.General,
+                    PreferenceMap = EnumParkingPreferences.NearEntry,
                     SlotNo = "S1"
                 },
                 new ParkingSlot()
                 {
                     IsOccupied = false,
-                    PreferenceMap = EnumParkingPreferences.General,
+                    PreferenceMap = EnumParkingPreferences.NearLift,
                     SlotNo = "S2"
                 },
                 new ParkingSlot()
                 {
                     IsOccupied = false,
-                    PreferenceMap = EnumParkingPreferences.General,
+                    PreferenceMap = EnumParkingPreferences.NearEVChargeStation,
                     SlotNo = "S3"
                 },
                 new ParkingSlot()
                 {
                     IsOccupied = false,
-                    PreferenceMap = EnumParkingPreferences.General,
+                    PreferenceMap = EnumParkingPreferences.NearEntry,
                     SlotNo = "S4"
                 },
                 new ParkingSlot()
@@ -165,13 +166,13 @@ namespace Common.TestData
                 new ParkingSlot()
                 {
                     IsOccupied = false,
-                    PreferenceMap = EnumParkingPreferences.General,
+                    PreferenceMap = EnumParkingPreferences.NearExit,
                     SlotNo = "S11"
                 },
                 new ParkingSlot()
                 {
                     IsOccupied = false,
-                    PreferenceMap = EnumParkingPreferences.General,
+                    PreferenceMap = EnumParkingPreferences.NearExit,
                     SlotNo = "S12"
                 },
             };
