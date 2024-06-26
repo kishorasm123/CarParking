@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Common.TestData;
 
 namespace CarParking
 {
@@ -23,9 +24,14 @@ namespace CarParking
     /// </summary>
     public partial class MainWindow : Window
     {
+
         public MainWindow()
         {
             InitializeComponent();
+
+            TestData tt = new TestData();
+            var parkingSlots = tt.ParkingSlot;
+            var registerations = tt.EmployeeRegistrations;
         }
     }
 }
