@@ -16,9 +16,6 @@ using Common.TestData;
 
 namespace CarParking
 {
-
-
-
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
