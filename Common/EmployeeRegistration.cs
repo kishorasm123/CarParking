@@ -6,16 +6,63 @@ using System.Threading.Tasks;
 
 namespace Common
 {
-    public class EmployeeRegistration
+    public class EmployeeRegistration : ModelBase
     {
-        public int RegistrationId { get; set; }
-        public string EmployeeId { get; set; }
-        public String EmployeeName { get; set; }
-        public String CarNo { get; set; }
-        public ICollection<EnumParkingPreferences> ParkingPreferences { get; set; }
+        private int _registrationId;
+        private string _employeeId;
+        private string _employeeName;
+        private string _carNo;
+        private ICollection<EnumParkingPreferences> _parkingPreferences;
 
-        public EmployeeRegistration()
+        public int RegistrationId
         {
+            get { return _registrationId; }
+            set
+            {
+                _registrationId = value;
+                OnPropertyChanged();
+            }
         }
+
+        public string EmployeeId
+        {
+            get { return _employeeId; }
+            set
+            {
+                _employeeId = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string EmployeeName
+        {
+            get { return _employeeName; }
+            set
+            {
+                _employeeName = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string CarNo
+        {
+            get { return _carNo; }
+            set
+            {
+                _carNo = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ICollection<EnumParkingPreferences> ParkingPreferences
+        {
+            get { return _parkingPreferences; }
+            set
+            {
+                _parkingPreferences = value;
+                OnPropertyChanged();
+            }
+        }
+
     }
 }

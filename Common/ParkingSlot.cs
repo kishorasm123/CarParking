@@ -7,12 +7,42 @@ using System.Threading.Tasks;
 
 namespace Common
 {
-    public class ParkingSlot
+    public class ParkingSlot : ModelBase
     {
-        public String SlotNo { get; set; }
-        public bool IsOccupied { get; set; }
-        public EnumParkingPreferences PreferenceMap { get; set; }
+        private string _slotNo;
+        private bool _isOccupied;
+        private EnumParkingPreferences _preferenceMap;
 
-        
+        public string SlotNo
+        {
+            get { return _slotNo; }
+            set
+            {
+                _slotNo = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool IsOccupied
+        {
+            get { return _isOccupied; }
+            set
+            {
+                _isOccupied = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public EnumParkingPreferences PreferenceMap
+        {
+            get { return _preferenceMap; }
+            set
+            {
+                _preferenceMap = value;
+                OnPropertyChanged();
+            }
+        }
+
+
     }
 }

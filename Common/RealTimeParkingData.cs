@@ -6,15 +6,63 @@ using System.Threading.Tasks;
 
 namespace Common
 {
-    public class RealTimeParkingData
+    public class RealTimeParkingData : ModelBase
     {
-        public int ParkingId { get; set; }
+        private int _parkingId;
+        private string _parkingSlotNo;
+        private string _carNo;
+        private EmployeeRegistration _employeeRegistration;
+        private ParkingSlot _parkingSlot;
 
-        public string ParkingSlotNo { get; set; }
-        public string CarNo { get; set; }
+        public int ParkingId
+        {
+            get { return _parkingId; }
+            set
+            {
+                _parkingId = value;
+                OnPropertyChanged();
+            }
+        }
 
-        public EmployeeRegistration EmployeeRegistration { get; set; }
-        public ParkingSlot ParkingSlot { get; set; }
+        public string ParkingSlotNo
+        {
+            get { return _parkingSlotNo; }
+            set
+            {
+                _parkingSlotNo = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string CarNo
+        {
+            get { return _carNo; }
+            set
+            {
+                _carNo = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public EmployeeRegistration EmployeeRegistration
+        {
+            get { return _employeeRegistration; }
+            set
+            {
+                _employeeRegistration = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ParkingSlot ParkingSlot
+        {
+            get { return _parkingSlot; }
+            set
+            {
+                _parkingSlot = value;
+                OnPropertyChanged();
+            }
+        }
 
         public RealTimeParkingData(string parkingSlotNo, string carNo)
         {
