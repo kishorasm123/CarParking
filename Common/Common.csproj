@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="EmployeeRegistration.cs" />
     <Compile Include="ModelBase.cs" />
+    <Compile Include="ParkingHistory.cs" />
     <Compile Include="RealTimeParkingData.cs" />
     <Compile Include="EnumParkingPreferences.cs" />
     <Compile Include="ParkingSlot.cs" />

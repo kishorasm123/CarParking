@@ -6,28 +6,51 @@ using System.Threading.Tasks;
 
 namespace Common.TestData
 {
-    public class TestRepository
+    public class TestRepository : ModelBase
     {
         private static ICollection<EmployeeRegistration> _employeeRegistrations;
         private static List<ParkingSlot> _parkingSlots;
         private static List<RealTimeParkingData> _realTimeParkingData;
+        private static List<ParkingHistory> _parkingHistories;
 
         public ICollection<EmployeeRegistration> EmployeeRegistrations
         {
             get { return _employeeRegistrations; }
-            set { _employeeRegistrations = value; }
+            set
+            {
+                _employeeRegistrations = value;
+                OnPropertyChanged();
+            }
         }
 
         public List<ParkingSlot> ParkingSlot
         {
             get { return _parkingSlots; }
-            set { _parkingSlots = value; }
+            set
+            {
+                _parkingSlots = value;
+                OnPropertyChanged();
+            }
         }
 
         public List<RealTimeParkingData> RealTimeParkingData
         {
             get { return _realTimeParkingData; }
-            set { _realTimeParkingData = value; }
+            set
+            {
+                _realTimeParkingData = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public List<ParkingHistory> ParkingHistory
+        {
+            get { return _parkingHistories; }
+            set
+            {
+                _parkingHistories = value;
+                OnPropertyChanged();
+            }
         }
 
 

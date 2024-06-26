@@ -11,7 +11,7 @@ namespace UseCase
 {
     public class ParkingSlotBooking
     {
-        public RealTimeParkingData BookParkingSloTimeParkingData(string carNo, TestRepository testDataRepository)
+        public RealTimeParkingData BookParkingSlot(string carNo, TestRepository testDataRepository)
         {
             RealTimeParkingData realTimeParkingData = new RealTimeParkingData();
 
@@ -33,9 +33,17 @@ namespace UseCase
                 realTimeParkingData.ParkingSlot.IsOccupied = true;
             }
 
+            // 2. Based on parked history.
+            testDataRepository.ParkingHistory.Where(x => x.CarNo == employeeRegistration.CarNo);
 
 
             testDataRepository.RealTimeParkingData.Add(realTimeParkingData);
+            testDataRepository.ParkingHistory.Add(new ParkingHistory()
+            {
+                CarNo = employeeRegistration.CarNo,
+                InTime = DateTime.Now,
+                ParkingSlotNo = realTimeParkingData.ParkingSlotNo
+            });
 
             return realTimeParkingData;
         }

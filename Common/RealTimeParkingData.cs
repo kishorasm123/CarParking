@@ -14,6 +14,9 @@ namespace Common
         private EmployeeRegistration _employeeRegistration;
         private ParkingSlot _parkingSlot;
 
+        public DateTime ParkingEntryTime = DateTime.Now;
+        public DateTime ParkingExitTime = DateTime.Now;
+
         public int ParkingId
         {
             get { return _parkingId; }
@@ -75,6 +78,6 @@ namespace Common
             }
         }
 
-      
+
     }
 }
